@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+build/
+dist/
+*.spec
+*.egg-info/
+.pytest_cache/
+.idea/
+.vscode/
+# rezultate locale de test
+sample_datasheet*.pdf
+*_RO.pdf
+*_RO_bilingv.docx
+*_RO_raport.html
+*_RO_comparativ.pdf
