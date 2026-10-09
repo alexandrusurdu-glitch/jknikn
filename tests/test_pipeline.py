@@ -13,6 +13,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# Consolele Windows (cp1252) nu pot afișa diacriticele: evităm UnicodeEncodeError la print.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(errors="replace")
+
 from app import engines as eng  # noqa: E402
 from app.config import Settings  # noqa: E402
 from app.glossary import Glossary  # noqa: E402

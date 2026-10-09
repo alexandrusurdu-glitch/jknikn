@@ -13,6 +13,9 @@ permissions:
 jobs:
   build-windows:
     runs-on: windows-latest
+    env:
+      PYTHONUTF8: "1"          # consola Windows a serverului folosește cp1252; forțăm UTF-8
+      PYTHONIOENCODING: utf-8
     steps:
       - name: Checkout
         uses: actions/checkout@v4

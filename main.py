@@ -15,11 +15,22 @@ from pathlib import Path
 
 
 def _ensure_streams() -> None:
-    """În executabilul fără consolă (PyInstaller --windowed) stdout/stderr pot fi None."""
+    """Face afișarea în consolă sigură.
+
+    - În executabilul fără consolă (PyInstaller --windowed) stdout/stderr pot fi None.
+    - Pe Windows, consola folosește adesea cp1252/cp850, care nu pot codifica diacriticele
+      (ă, ș, ț); fără `errors="replace"` un simplu print ar opri programul cu UnicodeEncodeError.
+    """
     if sys.stdout is None:
         sys.stdout = io.StringIO()
     if sys.stderr is None:
         sys.stderr = io.StringIO()
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(errors="replace")
+            except (ValueError, OSError):
+                pass
 
 
 def run_cli(argv: list[str]) -> int:
